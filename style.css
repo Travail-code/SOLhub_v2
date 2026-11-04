@@ -221,9 +221,13 @@ body {
 
 /* ---------- Page layout ---------- */
 .topbar {
-  position: sticky;
+  position: fixed;
   top: 0;
-  z-index: 10;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
   height: var(--topbar-h);
   display: flex;
   align-items: center;
@@ -278,7 +282,7 @@ body {
 .page {
   max-width: 960px;
   margin: 0 auto;
-  padding: 0 max(16px, env(safe-area-inset-right)) 24px max(16px, env(safe-area-inset-left));
+  padding: var(--topbar-h) max(16px, env(safe-area-inset-right)) 24px max(16px, env(safe-area-inset-left));
 }
 .hero {
   min-height: calc(100vh - var(--topbar-h));
@@ -453,15 +457,12 @@ body {
 /* Scroll reveal: only hidden when JS is on (html.js), so content is visible without JS */
 /* Fallback: if the observer never runs, sections still appear after 2 s.
    Once the observer is active (html.io), the fallback is turned off so normal scroll reveal works. */
-.js .reveal {
-  opacity: 0;
-  transform: translateY(14px);
-  animation: reveal-fallback 0s 2s forwards;
+.reveal { opacity: 1; }
+.io .reveal.will-reveal { opacity: 0; transform: translateY(14px); }
+.io .reveal.will-reveal.is-visible {
+  opacity: 1; transform: none;
   transition: opacity .6s ease, transform .6s cubic-bezier(.2, .8, .2, 1);
 }
-.js .reveal.is-visible { opacity: 1; transform: none; }
-.js.io .reveal { animation: none; }
-@keyframes reveal-fallback { to { opacity: 1; transform: none; } }
 
 @media (max-width: 760px) {
   .steps, .features { grid-template-columns: minmax(0, 1fr); }
@@ -478,7 +479,7 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .js .reveal { opacity: 1 !important; transform: none !important; transition: none !important; animation: none !important; }
+  .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;

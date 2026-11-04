@@ -122,16 +122,29 @@ var RESET_TIMEOUT = 12000;
   if (reduceMotion || !("IntersectionObserver" in window)) {
     showAll();
   } else {
-    document.documentElement.classList.add("io"); // observer active: disable the CSS 2 s fallback
-    var io = new IntersectionObserver(function (entries) {
-      for (var k = 0; k < entries.length; k++) {
-        if (entries[k].isIntersecting) {
-          entries[k].target.classList.add("is-visible");
-          io.unobserve(entries[k].target);
+    try {
+      document.documentElement.classList.add("io");
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var io = new IntersectionObserver(function (entries) {
+        for (var k = 0; k < entries.length; k++) {
+          if (entries[k].isIntersecting) {
+            entries[k].target.classList.add("is-visible");
+            io.unobserve(entries[k].target);
+          }
+        }
+      }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+      for (var r2 = 0; r2 < reveals.length; r2++) {
+        // only sections below the first screen get hidden and animated in; the top always shows
+        if (reveals[r2].getBoundingClientRect().top > vh) {
+          reveals[r2].classList.add("will-reveal");
+          io.observe(reveals[r2]);
         }
       }
-    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
-    for (var r2 = 0; r2 < reveals.length; r2++) io.observe(reveals[r2]);
+      // safety net: whatever happens, everything is visible after 3 s
+      setTimeout(showAll, 3000);
+    } catch (e) {
+      showAll();
+    }
   }
 
   // Leaving the page: cancel the pending safety-net reset
