@@ -9,11 +9,11 @@ document.documentElement.classList.add("js");
    Empty or invalid entries (not http/https) are ignored.
    ============================================================ */
 var KEY_LINKS = [
-  "https://example.com/key1",
-  "https://example.com/key2",
-  "https://example.com/key3",
-  "https://example.com/key4",
-  "https://example.com/key5"
+  "https://link-center.net/10431852/aH7BRwBB3xk4",
+  "https://direct-link.net/10431852/ZPrqksyG7WW3",
+  "https://link-center.net/10431852/1u1gahQ1mIf8",
+  "https://direct-link.net/10431852/p4qonSNf0Lu7",
+  "https://link-center.net/10431852/KKt0VKaYw3kj"
 ];
 
 /* Delay (ms) showing the "Redirecting..." state before leaving */
