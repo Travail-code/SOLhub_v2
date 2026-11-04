@@ -1,0 +1,241 @@
+/* SOL Hub — Get Key page. Colors from the "Mono" preset in part1.lua */
+:root {
+  --bg:        rgb(16, 16, 17);
+  --surface:   rgb(20, 20, 21);
+  --surface-2: rgb(25, 25, 26);
+  --stroke:    rgb(40, 40, 42);
+  --stroke-2:  rgb(38, 38, 40);
+  --muted-2:   rgb(84, 84, 88);
+  --accent:    rgb(236, 236, 240);
+  --on-accent: rgb(20, 20, 22);
+  --text:      rgb(234, 234, 236);
+  --muted:     rgb(128, 128, 134);
+  --success:   rgb(110, 220, 150);
+  --radius-card: 28px;
+  --radius-btn: 16px;
+  /* Montserrat (Google Fonts) first, then a solid system stack so the page looks right offline */
+  --font: "Montserrat", "Gotham", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(24px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right))
+           max(24px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  font-family: var(--font);
+  color: var(--text);
+  background: #1d232c;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Soft blurred backdrop, like the hub preview (bluish top-left, greenish bottom-right) */
+.bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(60% 55% at 12% 10%, rgba(92, 110, 135, 0.55), transparent 70%),
+    radial-gradient(55% 50% at 92% 95%, rgba(78, 96, 72, 0.45), transparent 70%),
+    linear-gradient(160deg, #2a323d 0%, #1f252e 50%, #232a26 100%);
+}
+
+/* Frosted glass card */
+.card {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  padding: 44px 36px 22px;
+  border-radius: var(--radius-card);
+  background: linear-gradient(180deg, rgba(34, 34, 36, 0.92) 0%, rgba(16, 16, 17, 0.94) 55%);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  text-align: center;
+  overflow: hidden;
+  animation: card-in 0.5s cubic-bezier(.2, .8, .2, 1) both;
+}
+
+/* Logo tile with subtle concentric rings */
+.logo-wrap {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  margin: 0 auto 22px;
+  display: grid;
+  place-items: center;
+}
+.ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+.ring-1 { width: 168px; height: 168px; }
+.ring-2 { width: 260px; height: 260px; border-color: rgba(255, 255, 255, 0.035); }
+.ring-3 { width: 360px; height: 360px; border-color: rgba(255, 255, 255, 0.022); }
+/* very faint halo behind the tile (kept subtle on purpose) */
+.logo-wrap::before {
+  content: "";
+  position: absolute;
+  inset: -30px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(236, 236, 240, 0.07) 0%, transparent 65%);
+  pointer-events: none;
+}
+.logo {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  border-radius: 24px;
+  display: grid;
+  place-items: center;
+  font-size: 46px;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--on-accent);
+  background: linear-gradient(180deg, #f2f2f5 0%, #bdbdc2 100%);
+  box-shadow:
+    0 8px 22px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.12);
+  user-select: none;
+}
+
+.title {
+  position: relative;
+  margin: 0;
+  font-size: clamp(30px, 8vw, 40px);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+.subtitle {
+  position: relative;
+  margin: 8px 0 30px;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+/* Primary button — same look as "Verify key" in the hub */
+.btn-primary {
+  position: relative;
+  width: 100%;
+  min-height: 60px;
+  padding: 0 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  border-radius: var(--radius-btn);
+  background: linear-gradient(180deg, #f0f0f3 0%, #c4c4c9 100%);
+  color: var(--on-accent);
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  transition: transform .15s ease, filter .15s ease, box-shadow .15s ease;
+  touch-action: manipulation;
+}
+.btn-primary:hover { filter: brightness(1.04); box-shadow: 0 8px 22px rgba(0, 0, 0, 0.4), inset 0 1px 0 #fff; }
+.btn-primary:active { transform: scale(0.98); }
+.btn-primary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+.btn-icon { display: inline-flex; }
+
+.spinner {
+  display: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2.5px solid rgba(20, 20, 22, 0.2);
+  border-top-color: var(--on-accent);
+  animation: spin .7s linear infinite;
+}
+.btn-primary.is-loading { cursor: progress; filter: brightness(0.94); }
+.btn-primary.is-loading .btn-icon { display: none; }
+.btn-primary.is-loading .spinner { display: inline-block; }
+
+.status {
+  min-height: 20px;
+  margin: 12px 0 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.status.is-error { color: rgb(240, 110, 110); }
+
+.divider {
+  height: 1px;
+  margin: 10px 0 16px;
+  background: linear-gradient(90deg, transparent, var(--stroke), transparent);
+}
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--muted);
+}
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--success);
+  box-shadow: 0 0 0 3px rgba(110, 220, 150, 0.14);
+  flex: none;
+}
+
+.footer.is-offline { color: rgb(240, 110, 110); }
+.footer.is-offline .dot {
+  background: rgb(240, 110, 110);
+  box-shadow: 0 0 0 3px rgba(240, 110, 110, 0.14);
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(10px) scale(.985); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .card { padding: 36px 22px 18px; border-radius: 24px; }
+  .logo-wrap, .logo { width: 84px; height: 84px; }
+  .logo { font-size: 40px; border-radius: 21px; }
+  .subtitle { font-size: 14px; margin-bottom: 26px; }
+  .btn-primary { min-height: 56px; font-size: 17px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  /* keep a visible (static) loading indicator */
+  .spinner { animation: none !important; border-color: rgba(20, 20, 22, 0.5); }
+}

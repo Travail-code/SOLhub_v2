@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101011">
+  <meta name="description" content="Get your SOL Hub key: one click picks a key link and redirects you to it.">
+  <title>SOL Hub · Get Key</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23ececf0'/%3E%3Ctext x='32' y='45' font-family='Montserrat,Arial,sans-serif' font-size='38' font-weight='800' text-anchor='middle' fill='%23141416'%3ES%3C/text%3E%3C/svg%3E">
+  <!-- Google Fonts: preconnect + display=swap, loaded non-blocking (media=print swap); system-ui fallback in style.css -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"></noscript>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="bg" aria-hidden="true"></div>
+
+  <main class="card">
+    <div class="logo-wrap" aria-hidden="true">
+      <span class="ring ring-1"></span>
+      <span class="ring ring-2"></span>
+      <span class="ring ring-3"></span>
+      <div class="logo">S</div>
+    </div>
+
+    <h1 class="title">SOL Hub</h1>
+    <p class="subtitle">Get your key to unlock the hub</p>
+
+    <button id="getKeyBtn" class="btn-primary" type="button">
+      <span class="btn-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/></svg>
+      </span>
+      <span class="spinner" aria-hidden="true"></span>
+      <span class="btn-label">Get Key</span>
+    </button>
+
+    <p id="status" class="status" role="status" aria-live="polite"></p>
+    <noscript><p class="status is-error">Enable JavaScript to get your key.</p></noscript>
+
+    <div class="divider" aria-hidden="true"></div>
+    <footer id="footer" class="footer">
+      <span class="dot" aria-hidden="true"></span>
+      <span><span id="systemState">Key system online</span>&nbsp;&nbsp;-&nbsp;&nbsp;v3.0</span>
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
