@@ -1,3 +1,6 @@
+/* Flags JS as available: scroll-reveal styles only apply with html.js (content stays visible without JS) */
+document.documentElement.classList.add("js");
+
 /* ============================================================
    SOL Hub — Get Key
    ------------------------------------------------------------
@@ -16,7 +19,7 @@ var KEY_LINKS = [
 /* Delay (ms) showing the "Redirecting..." state before leaving */
 var REDIRECT_DELAY = 800;
 /* Safety net (ms): if we are still on this page after this, the button is reset */
-var RESET_TIMEOUT = 6000;
+var RESET_TIMEOUT = 12000;
 
 (function () {
   "use strict";
@@ -104,6 +107,36 @@ var RESET_TIMEOUT = 6000;
       window.location.href = link;
       resetTimer = setTimeout(reset, RESET_TIMEOUT); // never stay stuck on "Redirecting..."
     }, REDIRECT_DELAY);
+  });
+
+  // Footer year
+  var year = document.getElementById("year");
+  if (year) year.textContent = String(new Date().getFullYear());
+
+  // Light scroll-reveal animations (skipped with prefers-reduced-motion or no IntersectionObserver)
+  var reveals = document.querySelectorAll(".reveal");
+  var reduceMotion = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function showAll() {
+    for (var r = 0; r < reveals.length; r++) reveals[r].classList.add("is-visible");
+  }
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    showAll();
+  } else {
+    document.documentElement.classList.add("io"); // observer active: disable the CSS 2 s fallback
+    var io = new IntersectionObserver(function (entries) {
+      for (var k = 0; k < entries.length; k++) {
+        if (entries[k].isIntersecting) {
+          entries[k].target.classList.add("is-visible");
+          io.unobserve(entries[k].target);
+        }
+      }
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+    for (var r2 = 0; r2 < reveals.length; r2++) io.observe(reveals[r2]);
+  }
+
+  // Leaving the page: cancel the pending safety-net reset
+  window.addEventListener("pagehide", function () {
+    clearTimeout(resetTimer);
   });
 
   // Reset when coming back with the browser's back button (bfcache)
